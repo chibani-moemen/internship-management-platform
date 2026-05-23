@@ -1,0 +1,106 @@
+<h2>Students Management</h2>
+
+<div class="grid-2">
+
+  <!-- Form Card -->
+  <section class="dashboard-card">
+    <h3>{{ editingId ? 'Update Student' : 'Add New Student' }}</h3>
+
+<p class="muted">
+  {{ editingId
+    ? 'Update the student information. The password will only change if you enter a new one.'
+    : 'Add a new student to the platform.' }}
+</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <label for="firstName">First Name</label>
+      <input
+        id="firstName"
+        type="text"
+        placeholder="Enter first name"
+        name="firstName"
+        [(ngModel)]="form.firstName"
+      />
+
+      <label for="lastName">Last Name</label>
+      <input
+        id="lastName"
+        type="text"
+        placeholder="Enter last name"
+        name="lastName"
+        [(ngModel)]="form.lastName"
+      />
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter email"
+        name="email"
+        [(ngModel)]="form.email"
+      />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Enter password"
+        name="password"
+        [(ngModel)]="form.password"
+      />
+
+      <div class="actions-row" style="margin-top: 10px;">
+        <button class="btn-primary" type="submit">
+          {{ editingId ? 'Update Student' : 'Add Student' }}
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          type="button"
+          *ngIf="editingId"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <p class="alert-success" *ngIf="message">{{ message }}</p>
+    <p class="alert-error" *ngIf="error">{{ error }}</p>
+  </section>
+
+  <!-- List Card -->
+  <section class="dashboard-card">
+    <h3>Students List</h3>
+
+    <p class="muted" *ngIf="students.length === 0">
+    No students at the moment.
+    </p>
+
+    <div *ngIf="students.length > 0" class="students-list">
+      <div class="student-card" *ngFor="let s of students; trackBy: trackById">
+        <div class="student-main">
+          <div class="student-name">
+            {{ s.firstName }} {{ s.lastName }}
+          </div>
+          <div class="student-email">
+            {{ s.email }}
+          </div>
+          <div class="student-id">
+            ID: {{ s.id }}
+          </div>
+        </div>
+
+        <div class="actions-row" *ngIf="isAdmin()">
+          <button class="btn-primary" type="button" (click)="editStudent(s)">
+            Edit
+          </button>
+          <button class="btn btn-danger" type="button" (click)="deleteStudent(s.id)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

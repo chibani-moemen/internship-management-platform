@@ -1,0 +1,87 @@
+<h2>Admin Dashboard</h2>
+
+<button class="btn-primary" type="button" (click)="reload()">Reload</button>
+
+<p class="alert-error" *ngIf="error">{{ error }}</p>
+
+<div *ngIf="vm$ | async as vm">
+
+  <!-- Quick stats -->
+  <div class="stats-grid" style="margin-top: 18px; margin-bottom: 18px;">
+    <div class="stat-card">
+      <div class="stat-label">Total Students</div>
+      <div class="stat-value">{{ vm.totalStudents }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Total Companies</div>
+      <div class="stat-value">{{ vm.totalCompanies }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Waiting ISET Approval</div>
+      <div class="stat-value">{{ vm.totalPendingAdmin }}</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Requests waiting -->
+    <section class="dashboard-card">
+      <h3>Requests Waiting for ISET Decision</h3>
+
+      <p class="muted" *ngIf="vm.pendingAdminRequests.length === 0">
+ There are no requests waiting for ISET approval right now ✅      </p>
+
+      <div *ngIf="vm.pendingAdminRequests.length > 0">
+        <div class="list-card" *ngFor="let r of vm.pendingAdminRequests; trackBy: trackByRequestId">
+          <div><b>Request #{{ r.id }}</b></div>
+          <div>
+            Student: {{ r.student?.firstName }} {{ r.student?.lastName }}
+          </div>
+          <div class="muted">{{ r.student?.email }}</div>
+          <div style="margin-top: 8px;">
+            Company: <b>{{ r.company?.name }}</b>
+          </div>
+          <div>Status: <b>{{ r.status }}</b></div>
+          <div class="muted" *ngIf="r.createdAt">{{ r.createdAt }}</div>
+        </div>
+      </div>
+
+      <div class="actions-row" style="margin-top: 14px;">
+        <a class="btn btn-primary" routerLink="/admin-requests">Approve / Reject Requests</a>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="dashboard-card">
+      <h3>Approval Summary</h3>
+
+      <div class="list-card">
+        <div class="stat-label">ISET Approved</div>
+        <div class="stat-value">{{ vm.totalApproved }}</div>
+      </div>
+
+      <div class="list-card">
+        <div class="stat-label">ISET Rejected</div>
+        <div class="stat-value">{{ vm.totalRejected }}</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="section-spacer"></div>
+
+  <!-- Management -->
+  <section class="dashboard-card">
+    <h3>Management</h3>
+
+    <div class="actions-row">
+      <a class="btn btn-primary" routerLink="/students">Manage Students</a>
+      <a class="btn btn-primary" routerLink="/companies">Manage Companies</a>
+      <a class="btn btn-primary" routerLink="/internships">Manage Internships</a>
+      <a class="btn btn-primary" routerLink="/admin-skills">Manage Skills</a>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,60 @@
+.requests-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.request-card {
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.request-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.request-id {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.status-chip {
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.22);
+}
+
+.info-block {
+  margin-bottom: 14px;
+}
+
+.info-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.info-value {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .requests-grid {
+    grid-template-columns: 1fr;
+  }
+}

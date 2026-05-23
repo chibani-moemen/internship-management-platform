@@ -1,0 +1,31 @@
+<h2>Student Skills</h2>
+
+<div class="dashboard-card">
+  <div class="actions-row" style="margin-bottom: 16px;">
+    <button class="btn-primary" type="button" (click)="reload()">Reload</button>
+    <button class="btn-primary" type="button" (click)="save()">Save</button>
+  </div>
+
+  <p class="alert-success" *ngIf="message">{{ message }}</p>
+  <p class="alert-error" *ngIf="error">{{ error }}</p>
+
+ <p class="muted page-subtitle">
+  Select your current skills. Previously added skills are automatically checked.
+</p>
+
+  <div *ngIf="vm$ | async as vm">
+    <div class="skills-grid">
+      <label class="skill-card" *ngFor="let s of vm.skills">
+        <input
+          type="checkbox"
+          [checked]="s.id != null && selected.has(s.id)"
+          (change)="s.id != null && toggle(s.id, $any($event.target).checked)"
+        />
+        <div class="skill-content">
+          <div class="skill-name">{{ s.name }}</div>
+          <div class="skill-meta">weight: {{ s.weight }}</div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>

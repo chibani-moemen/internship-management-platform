@@ -1,0 +1,93 @@
+<div class="form-card auth-card">
+  <div class="auth-badge">Create Account</div>
+
+  <h2>Register</h2>
+  <p class="auth-subtitle">
+Create a new account as a student or as a company.  </p>
+
+  <p class="alert-success" *ngIf="message$ | async as message" [style.display]="message ? 'block' : 'none'">
+    {{ message }}
+  </p>
+
+  <p class="alert-error" *ngIf="error$ | async as error" [style.display]="error ? 'block' : 'none'">
+    {{ error }}
+  </p>
+
+  <form (ngSubmit)="onSubmit()">
+
+    <label for="role">Role</label>
+    <select id="role" name="role" [(ngModel)]="form.role">
+      <option value="STUDENT">Student</option>
+      <option value="COMPANY">Company</option>
+    </select>
+
+    <div *ngIf="isStudent()">
+      <label for="firstName">First Name</label>
+      <input
+        id="firstName"
+        type="text"
+        name="firstName"
+        [(ngModel)]="form.firstName"
+        placeholder="Enter first name"
+      />
+
+      <label for="lastName">Last Name</label>
+      <input
+        id="lastName"
+        type="text"
+        name="lastName"
+        [(ngModel)]="form.lastName"
+        placeholder="Enter last name"
+      />
+    </div>
+
+    <div *ngIf="isCompany()">
+      <label for="name">Company Name</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="form.name"
+        placeholder="Enter company name"
+      />
+
+      <label for="address">Address</label>
+      <input
+        id="address"
+        type="text"
+        name="address"
+        [(ngModel)]="form.address"
+        placeholder="Enter company address"
+      />
+    </div>
+
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="email"
+      name="email"
+      [(ngModel)]="form.email"
+      placeholder="Enter your email"
+    />
+
+    <label for="password">Password</label>
+    <input
+      id="password"
+      type="password"
+      name="password"
+      [(ngModel)]="form.password"
+      placeholder="Enter your password"
+    />
+
+    <div class="actions-row" style="margin-top: 10px;">
+      <button class="btn-primary auth-submit" type="submit">
+        Create Account
+      </button>
+    </div>
+  </form>
+
+  <div class="auth-footer">
+    <span class="muted">Already have an account?</span>
+    <a routerLink="/login">Back to login</a>
+  </div>
+</div>

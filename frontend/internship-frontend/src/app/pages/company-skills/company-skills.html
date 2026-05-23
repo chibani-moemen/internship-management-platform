@@ -1,0 +1,30 @@
+<h2>Company Required Skills</h2>
+
+<div class="dashboard-card">
+  <div class="actions-row" style="margin-bottom: 16px;">
+    <button class="btn-primary" type="button" (click)="reload()">Reload</button>
+    <button class="btn-primary" type="button" (click)="save()">Save</button>
+  </div>
+
+  <p class="alert-success" *ngIf="message">{{ message }}</p>
+  <p class="alert-error" *ngIf="error">{{ error }}</p>
+
+  <p class="muted page-subtitle">
+Choose the required skills in the company. The previously selected skills are already checked.  </p>
+
+  <ul *ngIf="vm$ | async as vm" class="skills-grid">
+    <li class="skill-card" *ngFor="let s of vm.skills">
+      <label class="skill-label">
+        <input
+          type="checkbox"
+          [checked]="selected.has(s.id)"
+          (change)="toggle(s.id, $any($event.target).checked)"
+        />
+        <div class="skill-content">
+          <div class="skill-name">{{ s.name }}</div>
+          <div class="skill-meta">weight: {{ s.weight }}</div>
+        </div>
+      </label>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,84 @@
+<h2>Skills Management</h2>
+
+<div class="grid-2">
+
+  <!-- Form Card -->
+  <section class="dashboard-card">
+    <h3>{{ editingId ? 'Update Skill' : 'Add New Skill' }}</h3>
+
+<p class="muted">
+  {{ editingId
+    ? 'Edit the skill name or its weight.'
+    : 'Add a new skill so students and companies can choose from it.' }}
+</p>
+
+    <form (ngSubmit)="onSubmit()">
+
+      <label for="name">Skill Name</label>
+      <input
+        id="name"
+        type="text"
+        placeholder="Enter skill name"
+        name="name"
+        [(ngModel)]="form.name"
+      />
+
+      <label for="weight">Weight</label>
+      <select
+        id="weight"
+        name="weight"
+        [(ngModel)]="form.weight"
+      >
+        <option [ngValue]="1">1</option>
+        <option [ngValue]="2">2</option>
+      </select>
+
+      <div class="actions-row" style="margin-top: 10px;">
+        <button class="btn-primary" type="submit">
+          {{ editingId ? 'Update Skill' : 'Add Skill' }}
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          type="button"
+          *ngIf="editingId"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <p class="alert-success" *ngIf="message">{{ message }}</p>
+    <p class="alert-error" *ngIf="error">{{ error }}</p>
+  </section>
+
+  <!-- List Card -->
+  <section class="dashboard-card">
+    <h3>Skills List</h3>
+
+    <p class="muted" *ngIf="((skills$ | async) ?? []).length === 0">
+      ما فما حتى skill توّا.
+    </p>
+
+    <div class="skills-list">
+      <div class="skill-card" *ngFor="let s of (skills$ | async) ?? []">
+        <div class="skill-main">
+          <div class="skill-name">{{ s.name }}</div>
+          <div class="skill-weight">Weight: {{ s.weight }}</div>
+          <div class="skill-id" *ngIf="s.id">ID: {{ s.id }}</div>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn-primary" type="button" (click)="editSkill(s)">
+            Edit
+          </button>
+          <button class="btn btn-danger" type="button" (click)="deleteSkill(s.id)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

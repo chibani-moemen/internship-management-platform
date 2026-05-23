@@ -1,0 +1,63 @@
+<div class="app-shell">
+
+  <header class="topbar" *ngIf="isLoggedIn()">
+    <div class="topbar-left">
+      <div class="brand">Internship Management Platform</div>
+    </div>
+
+    <nav class="topbar-nav">
+      <!-- STUDENT -->
+      <a *ngIf="isStudent()" routerLink="/student-dashboard" routerLinkActive="active-link">
+        Dashboard
+      </a>
+      <a *ngIf="isStudent()" routerLink="/student-skills" routerLinkActive="active-link">
+        My Skills
+      </a>
+      <a *ngIf="isStudent()" routerLink="/companies" routerLinkActive="active-link">
+        Companies
+      </a>
+
+      <!-- COMPANY -->
+      <a *ngIf="isCompany()" routerLink="/company-dashboard" routerLinkActive="active-link">
+        Dashboard
+      </a>
+      <a *ngIf="isCompany()" routerLink="/company-requests" routerLinkActive="active-link">
+        Requests
+      </a>
+      <a *ngIf="isCompany()" routerLink="/company-skills" routerLinkActive="active-link">
+        Required Skills
+      </a>
+
+      <!-- ADMIN -->
+      <a *ngIf="isAdmin()" routerLink="/admin-dashboard" routerLinkActive="active-link">
+        Dashboard
+      </a>
+      <a *ngIf="isAdmin()" routerLink="/students" routerLinkActive="active-link">
+        Students
+      </a>
+      <a *ngIf="isAdmin()" routerLink="/companies" routerLinkActive="active-link">
+        Companies
+      </a>
+      <a *ngIf="isAdmin()" routerLink="/admin-requests" routerLinkActive="active-link">
+        Requests
+      </a>
+      <a *ngIf="isAdmin()" routerLink="/internships" routerLinkActive="active-link">
+        Internships
+      </a>
+      <a *ngIf="isAdmin()" routerLink="/admin-skills" routerLinkActive="active-link">
+        Skills
+      </a>
+    </nav>
+
+    <div class="topbar-right">
+      <button class="btn btn-danger" type="button" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="page-wrap" [class.page-wrap-auth]="!isLoggedIn()">
+    <div class="page-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+</div>

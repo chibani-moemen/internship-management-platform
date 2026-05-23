@@ -1,0 +1,149 @@
+<h2>Internships Management</h2>
+
+<p class="muted" *ngIf="!isAdmin()" style="margin-bottom: 16px;">
+  You can view internships only. Add / Edit / Delete is for Admin.
+</p>
+
+<div class="grid-2">
+
+  <!-- ADMIN FORM -->
+  <section class="dashboard-card" *ngIf="isAdmin()">
+    <h3>{{ editingId ? 'Update Internship' : 'Add New Internship' }}</h3>
+
+<p class="muted">
+  {{ editingId
+    ? 'Edit an existing internship. Make sure the dates are correct and there is no overlap.'
+    : 'Add a new internship and link it to a student and a company.' }}
+</p>
+
+    <form>
+      <label for="title">Title</label>
+      <input
+        id="title"
+        type="text"
+        placeholder="Enter internship title"
+        [(ngModel)]="form.title"
+        name="title"
+      />
+
+      <label for="description">Description</label>
+      <input
+        id="description"
+        type="text"
+        placeholder="Enter description"
+        [(ngModel)]="form.description"
+        name="description"
+      />
+
+      <div class="date-grid">
+        <div>
+          <label for="startDate">Start Date</label>
+          <input
+            id="startDate"
+            type="date"
+            [(ngModel)]="form.startDate"
+            name="startDate"
+          />
+        </div>
+
+        <div>
+          <label for="endDate">End Date</label>
+          <input
+            id="endDate"
+            type="date"
+            [(ngModel)]="form.endDate"
+            name="endDate"
+          />
+        </div>
+      </div>
+
+      <label for="studentId">Student</label>
+      <select id="studentId" [(ngModel)]="form.studentId" name="studentId">
+        <option [ngValue]="0">-- Select Student --</option>
+        <option *ngFor="let s of students" [ngValue]="s.id">
+          {{ s.firstName }} {{ s.lastName }}
+        </option>
+      </select>
+
+      <label for="companyId">Company</label>
+      <select id="companyId" [(ngModel)]="form.companyId" name="companyId">
+        <option [ngValue]="0">-- Select Company --</option>
+        <option *ngFor="let c of companies" [ngValue]="c.id">
+          {{ c.name }}
+        </option>
+      </select>
+
+      <div class="actions-row" style="margin-top: 10px;">
+        <button class="btn-primary" type="button" (click)="onSubmit()">
+          {{ editingId ? 'Update Internship' : 'Add Internship' }}
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          type="button"
+          *ngIf="editingId"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <p class="alert-success" *ngIf="message">{{ message }}</p>
+    <p class="alert-error" *ngIf="error">{{ error }}</p>
+  </section>
+
+  <!-- LIST -->
+  <section class="dashboard-card" [class.full-width-card]="!isAdmin()">
+    <h3>Internships List</h3>
+
+    <p class="muted" *ngIf="((internships$ | async) ?? []).length === 0">
+      ما فما حتى internship توّا.
+    </p>
+
+    <div class="internships-list">
+      <div class="internship-card" *ngFor="let i of (internships$ | async) ?? []">
+        <div class="internship-header">
+          <div>
+            <div class="internship-title">{{ i.title }}</div>
+            <div class="muted">#{{ i.id }}</div>
+          </div>
+
+          <div class="internship-dates">
+            {{ i.startDate }} → {{ i.endDate }}
+          </div>
+        </div>
+
+        <div class="internship-description" *ngIf="i.description">
+          {{ i.description }}
+        </div>
+
+        <div class="info-row">
+          <div class="info-block">
+            <div class="info-title">Student</div>
+            <div class="info-value">
+              {{ i.student?.firstName }} {{ i.student?.lastName }}
+            </div>
+          </div>
+
+          <div class="info-block">
+            <div class="info-title">Company</div>
+            <div class="info-value">
+              {{ i.company?.name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-row" *ngIf="isAdmin()" style="margin-top: 16px;">
+          <button class="btn-primary" type="button" (click)="editInternship(i)">
+            Edit
+          </button>
+          <button class="btn btn-danger" type="button" (click)="deleteInternship(i.id)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,54 @@
+<div class="form-card auth-card">
+  <div class="auth-badge">Welcome Back</div>
+
+  <h2>Login</h2>
+<p class="auth-subtitle">
+  Log in to your account based on your role in the platform.
+</p>
+
+  <p class="alert-success" *ngIf="message$ | async as message" [style.display]="message ? 'block' : 'none'">
+    {{ message }}
+  </p>
+
+  <p class="alert-error" *ngIf="error$ | async as error" [style.display]="error ? 'block' : 'none'">
+    {{ error }}
+  </p>
+
+  <form (ngSubmit)="onSubmit()">
+    <label for="role">Role</label>
+    <select id="role" name="role" [(ngModel)]="form.role">
+      <option value="STUDENT">Student</option>
+      <option value="COMPANY">Company</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="email"
+      name="email"
+      [(ngModel)]="form.email"
+      placeholder="Enter your email"
+    />
+
+    <label for="password">Password</label>
+    <input
+      id="password"
+      type="password"
+      name="password"
+      [(ngModel)]="form.password"
+      placeholder="Enter your password"
+    />
+
+    <div class="actions-row" style="margin-top: 10px;">
+      <button class="btn-primary auth-submit" type="submit">
+        Sign In
+      </button>
+    </div>
+  </form>
+
+  <div class="auth-footer">
+    <span class="muted">Don’t have an account?</span>
+    <a routerLink="/register">Create one</a>
+  </div>
+</div>

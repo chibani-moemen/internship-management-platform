@@ -1,0 +1,67 @@
+.students-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.student-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.student-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.student-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.student-email {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.student-id {
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.alert-success,
+.alert-error {
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .student-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .student-card .actions-row {
+    width: 100%;
+  }
+
+  .student-card .actions-row button {
+    flex: 1;
+  }
+}

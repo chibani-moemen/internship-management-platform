@@ -1,0 +1,94 @@
+<h2>Student Dashboard</h2>
+
+<button class="btn-primary" type="button" (click)="reload()">Reload</button>
+
+<p class="alert-error" *ngIf="error">{{ error }}</p>
+
+<div *ngIf="vm$ | async as vm">
+
+  <!-- Top quick stats -->
+  <div class="stats-grid" style="margin-top: 18px; margin-bottom: 18px;">
+    <div class="stat-card">
+      <div class="stat-label">Email</div>
+      <div class="stat-value" style="font-size: 18px;">{{ vm.email }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">My Skills</div>
+      <div class="stat-value">{{ vm.skills.length }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">My Requests</div>
+      <div class="stat-value">{{ vm.requests.length }}</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Skills -->
+    <section class="dashboard-card">
+      <h3>My Skills</h3>
+
+<p class="muted" *ngIf="vm.skills.length === 0">
+  You don’t have any skills yet. Add skills to improve matching.
+</p>
+
+      <div *ngIf="vm.skills.length > 0">
+        <div class="list-card" *ngFor="let s of vm.skills">
+          <b>{{ s.name }}</b>
+          <span class="muted" *ngIf="s.weight"> — weight: {{ s.weight }}</span>
+        </div>
+      </div>
+
+      <div class="actions-row" style="margin-top: 14px;">
+        <a class="btn btn-primary" routerLink="/student-skills">Update Skills</a>
+      </div>
+    </section>
+
+    <!-- Requests -->
+    <section class="dashboard-card">
+      <h3>My Requests</h3>
+
+<p class="muted" *ngIf="vm.requests.length === 0">
+  No requests have been submitted yet.
+</p>
+
+      <div *ngIf="vm.requests.length > 0">
+        <div class="list-card" *ngFor="let r of vm.requests">
+          <div><b>Request #{{ r.id }}</b></div>
+          <div>Company: {{ r.company?.name ?? '---' }}</div>
+          <div>Status: <b>{{ r.status }}</b></div>
+          <div class="muted" *ngIf="r.createdAt">{{ r.createdAt }}</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="section-spacer"></div>
+
+  <!-- Top Matches -->
+  <section class="dashboard-card">
+    <h3>Top Matches</h3>
+
+<p class="muted" *ngIf="vm.matches.length === 0">
+  No matches found right now. Add more skills and try again.
+</p>
+
+    <div *ngIf="vm.matches.length > 0" class="grid-3">
+      <div class="stat-card" *ngFor="let m of vm.matches">
+        <div class="stat-label">{{ m.companyName }}</div>
+        <div class="stat-value">{{ m.score }}%</div>
+        <div class="muted" style="margin-top: 10px;" *ngIf="m.matchingSkills.length">
+          Matching: {{ m.matchingSkills.join(', ') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="actions-row" style="margin-top: 16px;">
+      <a class="btn btn-primary" routerLink="/companies">View All Matches</a>
+    </div>
+  </section>
+
+</div>

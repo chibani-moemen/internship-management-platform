@@ -1,0 +1,70 @@
+<h2>Company Requests</h2>
+
+<div class="dashboard-card">
+  <div class="actions-row" style="margin-bottom: 16px;">
+    <button class="btn-primary" type="button" (click)="reload()">Reload</button>
+  </div>
+
+  <p class="alert-success" *ngIf="message">{{ message }}</p>
+  <p class="alert-error" *ngIf="error">{{ error }}</p>
+
+  <div *ngIf="(requests$ | async) as requests">
+
+    <p class="muted" *ngIf="requests.length === 0">
+There are no requests in pending right now ✅    </p>
+
+    <div class="requests-grid" *ngIf="requests.length > 0">
+      <div class="request-card" *ngFor="let r of requests">
+
+        <div class="request-header">
+          <div>
+            <div class="request-id">Request #{{ r.id }}</div>
+            <div class="muted">Status: {{ r.status }}</div>
+          </div>
+          <div class="score-chip">
+            {{ getMatchScore(r) }}%
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-title">Student</div>
+          <div class="info-value">
+            {{ r.student?.firstName }} {{ r.student?.lastName }}
+          </div>
+          <div class="muted">{{ r.student?.email }}</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-title">Student Skills</div>
+          <div class="tag-list" *ngIf="r.student?.skills?.length > 0; else noStudentSkills">
+            <span class="tag" *ngFor="let s of r.student?.skills">
+              {{ s.name }}
+            </span>
+          </div>
+          <ng-template #noStudentSkills>
+            <div class="muted">No skills</div>
+          </ng-template>
+        </div>
+
+        <div class="info-block">
+          <div class="info-title">Matching Skills</div>
+          <div class="tag-list" *ngIf="getMatchingSkills(r).length > 0; else noMatchSkills">
+            <span class="tag tag-match" *ngFor="let s of getMatchingSkills(r)">
+              {{ s }}
+            </span>
+          </div>
+          <ng-template #noMatchSkills>
+            <div class="muted">No matching skills</div>
+          </ng-template>
+        </div>
+
+        <div class="actions-row" style="margin-top: 16px;">
+          <button class="btn-primary" type="button" (click)="accept(r.id)">Accept</button>
+          <button class="btn btn-danger" type="button" (click)="reject(r.id)">Reject</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

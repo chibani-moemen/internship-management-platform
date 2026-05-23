@@ -1,0 +1,160 @@
+<h2 *ngIf="isAdmin()">Companies Management</h2>
+<h2 *ngIf="isStudent()">Matching Companies</h2>
+
+<!-- ADMIN VIEW -->
+<div *ngIf="isAdmin()" class="grid-2">
+
+  <!-- Form Card -->
+  <section class="dashboard-card">
+    <h3>{{ editingId ? 'Update Company' : 'Add New Company' }}</h3>
+
+<p class="muted">
+  {{ editingId
+    ? 'Update the company information. The password will only be changed if you enter a new one.'
+    : 'Add a new company to the platform.' }}
+</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <label for="name">Company Name</label>
+      <input
+        id="name"
+        type="text"
+        placeholder="Enter company name"
+        name="name"
+        [(ngModel)]="form.name"
+      />
+
+      <label for="address">Address</label>
+      <input
+        id="address"
+        type="text"
+        placeholder="Enter address"
+        name="address"
+        [(ngModel)]="form.address"
+      />
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter email"
+        name="email"
+        [(ngModel)]="form.email"
+      />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Enter password"
+        name="password"
+        [(ngModel)]="form.password"
+      />
+
+      <div class="actions-row" style="margin-top: 10px;">
+        <button class="btn-primary" type="submit">
+          {{ editingId ? 'Update Company' : 'Add Company' }}
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          type="button"
+          *ngIf="editingId"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <p class="alert-success" *ngIf="message">{{ message }}</p>
+    <p class="alert-error" *ngIf="error">{{ error }}</p>
+  </section>
+
+  <!-- List Card -->
+  <section class="dashboard-card">
+    <h3>Companies List</h3>
+
+    <p class="muted" *ngIf="(companies$ | async)?.length === 0">
+      ما فما حتى company توّا.
+    </p>
+
+    <div *ngIf="companies$ | async as companies" class="companies-list">
+      <div class="company-card" *ngFor="let c of companies">
+        <div class="company-main">
+          <div class="company-name">{{ c.name }}</div>
+          <div class="company-email">{{ c.email }}</div>
+          <div class="company-address">{{ c.address }}</div>
+          <div class="company-id" *ngIf="c.id">ID: {{ c.id }}</div>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn-primary" type="button" (click)="editCompany(c)">
+            Edit
+          </button>
+          <button class="btn btn-danger" type="button" (click)="deleteCompany(c.id)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- STUDENT VIEW -->
+<div *ngIf="isStudent()" class="dashboard-card">
+  <p class="muted">
+    هاذم أفضل الشركات بالنسبة للـ skills متاعك، مرتّبين حسب الـ match score.
+  </p>
+
+  <p class="alert-success" *ngIf="message">{{ message }}</p>
+  <p class="alert-error" *ngIf="error">{{ error }}</p>
+
+  <div *ngIf="matches$ | async as matches">
+
+    <p class="muted" *ngIf="matches.length === 0">
+      ما لقيناش matches توّا. زيد skills وعاود جرّب.
+    </p>
+
+    <div class="matches-grid" *ngIf="matches.length > 0">
+      <div class="match-card" *ngFor="let m of matches">
+        <div class="match-header">
+          <div>
+            <div class="match-company">{{ m.companyName }}</div>
+            <div class="muted">{{ m.companyEmail }}</div>
+          </div>
+
+          <div class="score-chip">
+            {{ m.score }}%
+          </div>
+        </div>
+
+        <div class="match-address">
+          {{ m.companyAddress }}
+        </div>
+
+        <div class="info-block">
+          <div class="info-title">Matching Skills</div>
+
+          <div class="tag-list" *ngIf="m.matchingSkills.length > 0; else noMatchSkills">
+            <span class="tag tag-match" *ngFor="let s of m.matchingSkills">
+              {{ s }}
+            </span>
+          </div>
+
+          <ng-template #noMatchSkills>
+            <div class="muted">No matching skills</div>
+          </ng-template>
+        </div>
+
+        <div class="actions-row" style="margin-top: 16px;">
+          <button class="btn-primary" type="button" (click)="sendRequest(m.companyId)">
+            Send Request
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

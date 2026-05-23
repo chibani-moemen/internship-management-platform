@@ -1,0 +1,15 @@
+h2 {
+  margin-bottom: 16px;
+}
+
+.dashboard-card h3 {
+  margin-bottom: 14px;
+}
+
+.list-card {
+  margin-bottom: 12px;
+}
+
+.actions-row a.btn {
+  display: inline-block;
+}   

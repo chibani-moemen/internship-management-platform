@@ -1,0 +1,90 @@
+<h2>Company Dashboard</h2>
+
+<button class="btn-primary" type="button" (click)="reload()">Reload</button>
+
+<p class="alert-error" *ngIf="error">{{ error }}</p>
+
+<div *ngIf="vm$ | async as vm">
+
+  <!-- Quick stats -->
+  <div class="stats-grid" style="margin-top: 18px; margin-bottom: 18px;">
+    <div class="stat-card">
+      <div class="stat-label">Total Requests</div>
+      <div class="stat-value">{{ vm.total }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Pending</div>
+      <div class="stat-value">{{ vm.pending }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Accepted</div>
+      <div class="stat-value">{{ vm.accepted }}</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Top Matches -->
+    <section class="dashboard-card">
+      <h3>Top Matches</h3>
+
+      <p class="muted" *ngIf="vm.topMatches.length === 0">
+        ما فماش requests توّا، donc ما فماش top matches.
+      </p>
+
+      <div *ngIf="vm.topMatches.length > 0">
+        <div class="list-card" *ngFor="let m of vm.topMatches">
+          <div><b>{{ m.firstName }} {{ m.lastName }}</b></div>
+          <div class="muted">{{ m.email }}</div>
+          <div style="margin-top: 8px;">
+            Score: <b>{{ m.score }}%</b>
+          </div>
+          <div class="muted" *ngIf="m.matchingSkills?.length > 0" style="margin-top: 6px;">
+            Matching Skills: {{ m.matchingSkills.join(', ') }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pending Requests -->
+    <section class="dashboard-card">
+      <h3>Pending Requests</h3>
+
+      <p class="muted" *ngIf="vm.pendingRequests.length === 0">
+There are no requests in pending right now ✅      </p>
+
+      <div *ngIf="vm.pendingRequests.length > 0">
+        <div class="list-card" *ngFor="let r of vm.pendingRequests">
+          <div><b>Request #{{ r.id }}</b></div>
+          <div>
+            Student: {{ r.student?.firstName }} {{ r.student?.lastName }}
+          </div>
+          <div class="muted">{{ r.student?.email }}</div>
+          <div style="margin-top: 8px;">
+            Status: <b>{{ r.status }}</b>
+          </div>
+          <div class="muted" *ngIf="r.createdAt">{{ r.createdAt }}</div>
+        </div>
+      </div>
+
+      <div class="actions-row" style="margin-top: 14px;">
+        <a class="btn btn-primary" routerLink="/company-requests">Manage Requests</a>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="section-spacer"></div>
+
+  <!-- Settings -->
+  <section class="dashboard-card">
+    <h3>Company Settings</h3>
+
+    <div class="actions-row">
+      <a class="btn btn-primary" routerLink="/company-skills">Update Required Skills</a>
+    </div>
+  </section>
+
+</div>
